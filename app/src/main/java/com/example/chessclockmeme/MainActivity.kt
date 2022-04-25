@@ -12,13 +12,15 @@ import com.example.chessclockmeme.databinding.ActivityMainBinding
 
 
 lateinit var mBinding : ActivityMainBinding
-const val topInitialTime: Long = 30
+const val topInitialTime: Long = 300
 var topTimeLeft = topInitialTime
-const val bottomInitialTime: Long = 30
+const val bottomInitialTime: Long = 300
 var bottomTimeLeft = bottomInitialTime
 const val oneSecondInMilliseconds: Long =  1000
 var topClicked = false
 var bottomClicked= false
+var tiempoAMostrar1 = "00:00"
+var tiempoAMostrar2= "00:00"
 
 
 
@@ -42,9 +44,10 @@ class MainActivity : AppCompatActivity() {
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
-
-        mBinding.tvP1.text = topInitialTime.toString()
-        mBinding.tvP2.text = bottomInitialTime.toString()
+        tiempoAMostrar1 = segToMin(topInitialTime)
+        tiempoAMostrar2 = segToMin(bottomInitialTime)
+        mBinding.tvP1.text = tiempoAMostrar1
+        mBinding.tvP2.text = tiempoAMostrar2
         mBinding.tvP1.setBackgroundColor(Color.LTGRAY)
         mBinding.tvP2.setBackgroundColor(Color.LTGRAY)
 
@@ -64,7 +67,9 @@ class MainActivity : AppCompatActivity() {
                     // Update the label to show the remaining time and then remove one second from
                     // the timeLeft variable so that if the timer has to be stopped and started
                     // again, we know how much time to put on the new timer.
-                    mBinding.tvP2.text = "${millisUntilFinished / oneSecondInMilliseconds}"
+                    //mBinding.tvP2.text = "${millisUntilFinished / oneSecondInMilliseconds}"
+                    tiempoAMostrar2= segToMin(millisUntilFinished/1000)
+                    mBinding.tvP2.text = tiempoAMostrar2
                     bottomTimeLeft--
                 }
 
@@ -117,7 +122,9 @@ class MainActivity : AppCompatActivity() {
                     // Update the label to show the remaining time and then remove one second from
                     // the timeLeft variable so that if the timer has to be stopped and started
                     // again, we know how much time to put on the new timer.
-                    mBinding.tvP1.text = "${millisUntilFinished / oneSecondInMilliseconds}"
+                    //mBinding.tvP1.text = "${millisUntilFinished / oneSecondInMilliseconds}"
+                    tiempoAMostrar1= segToMin(millisUntilFinished/1000)
+                    mBinding.tvP1.text = tiempoAMostrar1
                     topTimeLeft--
                 }
 
@@ -158,16 +165,10 @@ class MainActivity : AppCompatActivity() {
     private fun segToMin(tiempoEnSegundos: Long) : String{
         var min = tiempoEnSegundos / 60
 
-        var seg = tiempoEnSegundos % 60 - min
+        var seg = tiempoEnSegundos % 60
 
-        return String.format("%02d:%02d",min.toString(),seg.toString())
+        return String.format("%02d:%02d",min,seg)
+
     }
 
-    private fun minToSeg (tiempoEnMinutos : String): Long{
-        var minTomados = "${tiempoEnMinutos[0]}${tiempoEnMinutos[1]}"
-        var min = minTomados.toLong() * 60
-        var segTomados = "${tiempoEnMinutos[3]}${tiempoEnMinutos[4]}"
-        var seg = segTomados.toLong()
-        return min + seg
-    }
 }
