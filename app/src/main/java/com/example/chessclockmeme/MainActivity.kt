@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.chessclockmeme.databinding.ActivityMainBinding
@@ -57,6 +58,10 @@ class MainActivity : AppCompatActivity() {
             //make sure bottom button is enabled
             mBinding.tvP2.isEnabled = true
             mBinding.tvP2.isClickable = true
+
+
+            mBinding.ibReset.visibility = View.INVISIBLE
+            mBinding.ibSettings.visibility = View.INVISIBLE
 
             //set up timer that will run when the top button is clicked
             bottomTimer = object :
@@ -113,6 +118,9 @@ class MainActivity : AppCompatActivity() {
             mBinding.tvP1.isEnabled = true
             mBinding.tvP1.isClickable = true
 
+            mBinding.ibReset.visibility = View.INVISIBLE
+            mBinding.ibSettings.visibility = View.INVISIBLE
+
             //set up timer that will run when the bottom button is clicked
             topTimer = object :
                 CountDownTimer(topTimeLeft * oneSecondInMilliseconds, oneSecondInMilliseconds) {
@@ -157,6 +165,14 @@ class MainActivity : AppCompatActivity() {
                 bottomTimer.cancel()
                 topClicked = false
             }
+        }
+
+        mBinding.ibPausa.setOnClickListener {
+            topTimer.cancel()
+            bottomTimer.cancel()
+            mBinding.ibReset.visibility = View.VISIBLE
+            mBinding.ibSettings.visibility = View.VISIBLE
+
         }
 
 
