@@ -1,6 +1,7 @@
 package com.example.chessclockmeme
 
 import android.graphics.Color
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
@@ -9,9 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentTransaction
 import com.example.chessclockmeme.databinding.FragmentRelojBinding
-var topInitialTime: Long = 300
+var topInitialTime: Long = 35
 var topTimeLeft = topInitialTime
-var bottomInitialTime: Long = 300
+var bottomInitialTime: Long = 35
 var bottomTimeLeft = bottomInitialTime
 const val oneSecondInMilliseconds: Long =  1000
 var topClicked = false
@@ -47,6 +48,11 @@ class RelojFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //variables que contienen las canciones
+        val mediaDiez = MediaPlayer.create(context,R.raw.diezseg)
+        val mediaTreinta = MediaPlayer.create(context,R.raw.treintaseg)
+
+
         tiempoAMostrar1 = segToMin(topInitialTime)
         tiempoAMostrar2 = segToMin(bottomInitialTime)
         mBinding.tvP1.text = tiempoAMostrar1
@@ -78,12 +84,24 @@ class RelojFragment : Fragment() {
                     tiempoAMostrar2= segToMin(millisUntilFinished/1000)
                     mBinding.tvP2.text = tiempoAMostrar2
                     bottomTimeLeft--
+
+                    if (bottomTimeLeft<30){
+                        if (bottomTimeLeft<10){
+                            mediaTreinta.stop()
+                            mediaDiez.start()
+                        }else  {
+                            mediaTreinta.start()
+                        }
+
+                    }
+
                 }
 
                 // This special function is part of the timer. It runs when the amount of time left
                 // in the timer has reached zero and thus the timer is done.
                 override fun onFinish() {
                     mBinding.tvP2.setBackgroundColor(Color.RED)
+                    mediaDiez.stop()
 
                 }
             }
@@ -136,12 +154,24 @@ class RelojFragment : Fragment() {
                     tiempoAMostrar1= segToMin(millisUntilFinished/1000)
                     mBinding.tvP1.text = tiempoAMostrar1
                     topTimeLeft--
+
+                    if (topTimeLeft<30){
+                        if (topTimeLeft<10){
+                            mediaTreinta.stop()
+                            mediaDiez.start()
+
+                        }else  {
+                            mediaTreinta.start()
+                        }
+
+                    }
                 }
 
                 // This special function is part of the timer. It runs when the amount of time left
                 // in the timer has reached zero and thus the timer is done.
                 override fun onFinish() {
                     mBinding.tvP1.setBackgroundColor(Color.RED)
+                    mediaDiez.stop()
 
                 }
             }
