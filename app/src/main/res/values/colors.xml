@@ -7,4 +7,17 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="green">#ff228B22</color>
+    <color name="card">#ff8e8e8e</color>
+    <color name="smallCard">#ff373737</color>
+    <color name="fondoAjustes">#274A148C</color>
+    <color name="LetraBlancas">#274A148C</color>
+    <color name="LetraNegras">#274A148C</color>
+    <color name="grenboton">#ff43a047</color>
+
+    <color name="dark_brown">#ff5d4037</color>
+    <color name="light_brown">#ffffb74d</color>
+
+
+
 </resources>

@@ -8,11 +8,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.example.chessclockmeme.databinding.FragmentRelojBinding
-var topInitialTime: Long = 35
+import kotlin.concurrent.fixedRateTimer
+
+var topInitialTime: Long = 300
 var topTimeLeft = topInitialTime
-var bottomInitialTime: Long = 35
+var bottomInitialTime: Long = 300
 var bottomTimeLeft = bottomInitialTime
 const val oneSecondInMilliseconds: Long =  1000
 var topClicked = false
@@ -34,6 +37,13 @@ class RelojFragment : Fragment() {
         override fun onTick(millisUntilFinished: Long) {}
         override fun onFinish() {}
     }
+
+    //banderas para reproducir sonidos
+    var treintaSegJ1 = false
+    var diezSegJ1= false
+    var treintaSegJ2 = false
+    var diezSegJ2= false
+
 
 
     private lateinit var mBinding: FragmentRelojBinding
@@ -57,9 +67,8 @@ class RelojFragment : Fragment() {
         tiempoAMostrar2 = segToMin(bottomInitialTime)
         mBinding.tvP1.text = tiempoAMostrar1
         mBinding.tvP2.text = tiempoAMostrar2
-        mBinding.tvP1.setBackgroundColor(Color.LTGRAY)
-        mBinding.tvP2.setBackgroundColor(Color.LTGRAY)
-
+        mBinding.tvP1.setBackgroundColor(resources.getColor(R.color.black))
+        mBinding.tvP2.setBackgroundColor(resources.getColor(R.color.black))
 
         mBinding.tvP1.setOnClickListener {
 
@@ -85,15 +94,14 @@ class RelojFragment : Fragment() {
                     mBinding.tvP2.text = tiempoAMostrar2
                     bottomTimeLeft--
 
-                    if (bottomTimeLeft<30){
-                        if (bottomTimeLeft<10){
-                            mediaTreinta.stop()
-                            mediaDiez.start()
-                        }else  {
-                            mediaTreinta.start()
+                    if (bottomTimeLeft<30 && !treintaSegJ2) {
+                  //      mediaTreinta.start()
+                        if (bottomTimeLeft<10 && !diezSegJ2){
+                   //         mediaDiez.start()
                         }
-
                     }
+
+
 
                 }
 
@@ -101,7 +109,9 @@ class RelojFragment : Fragment() {
                 // in the timer has reached zero and thus the timer is done.
                 override fun onFinish() {
                     mBinding.tvP2.setBackgroundColor(Color.RED)
-                    mediaDiez.stop()
+                    mBinding.tvP1.isEnabled = false
+                    mBinding.tvP1.isClickable= false
+                    mBinding.tvP1.setBackgroundColor(resources.getColor(R.color.green) )
 
                 }
             }
@@ -112,8 +122,10 @@ class RelojFragment : Fragment() {
             //conditional runs when the top button has been clicked
             if (topClicked) {
                 //change colors to show the timer on the bottom clock is running
-                mBinding.tvP1.setBackgroundColor(Color.GRAY)
-                mBinding.tvP2.setBackgroundColor(Color.TRANSPARENT)
+                mBinding.tvP1.setBackgroundColor(resources.getColor(R.color.dark_brown))
+                mBinding.tvP1.setTextColor(resources.getColor(R.color.light_brown))
+                mBinding.tvP2.setBackgroundColor(resources.getColor(R.color.light_brown))
+                mBinding.tvP2.setTextColor(resources.getColor(R.color.dark_brown))
 
                 //disable the top button until the bottom button is clicked
                 mBinding.tvP1.isEnabled = false
@@ -155,23 +167,22 @@ class RelojFragment : Fragment() {
                     mBinding.tvP1.text = tiempoAMostrar1
                     topTimeLeft--
 
-                    if (topTimeLeft<30){
-                        if (topTimeLeft<10){
-                            mediaTreinta.stop()
-                            mediaDiez.start()
-
-                        }else  {
-                            mediaTreinta.start()
+                    if (topTimeLeft<30 && !treintaSegJ1) {
+              //          mediaTreinta.start()
+                        if (topTimeLeft<10 && !diezSegJ1){
+                  //          mediaDiez.start()
                         }
-
                     }
+
                 }
 
                 // This special function is part of the timer. It runs when the amount of time left
                 // in the timer has reached zero and thus the timer is done.
                 override fun onFinish() {
                     mBinding.tvP1.setBackgroundColor(Color.RED)
-                    mediaDiez.stop()
+                    mBinding.tvP2.isEnabled = false
+                    mBinding.tvP2.isClickable= false
+                    mBinding.tvP2.setBackgroundColor(resources.getColor(R.color.green) )
 
                 }
             }
@@ -181,9 +192,10 @@ class RelojFragment : Fragment() {
             //conditional runs when the bottom button has been clicked
             if (bottomClicked) {
                 //change colors to show the timer on the bottom clock is running
-                mBinding.tvP1.setBackgroundColor(Color.GRAY)
-                mBinding.tvP2.setBackgroundColor(Color.TRANSPARENT)
-
+                mBinding.tvP2.setBackgroundColor(resources.getColor(R.color.dark_brown))
+                mBinding.tvP2.setTextColor(resources.getColor(R.color.light_brown))
+                mBinding.tvP1.setBackgroundColor(resources.getColor(R.color.light_brown))
+                mBinding.tvP1.setTextColor(resources.getColor(R.color.dark_brown))
                 //disable the bottom button until the top button is clicked
                 mBinding.tvP2.isEnabled = false
                 mBinding.tvP2.isClickable = false

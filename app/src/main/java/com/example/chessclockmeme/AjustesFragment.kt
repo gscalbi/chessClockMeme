@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.example.chessclockmeme.databinding.FragmentAjustesBinding
 
 
+
 class AjustesFragment : Fragment() {
     private lateinit var mBinding : FragmentAjustesBinding
     override fun onCreateView(
@@ -21,7 +22,10 @@ class AjustesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mBinding.root.setBackgroundColor(resources.getColor(R.color.black) )
+
+
+
+
     }
 
 }
